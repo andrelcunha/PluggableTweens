@@ -87,7 +87,19 @@ namespace _2MuchPines.PlugglableTweens
         [HideInInspector]
         public float moveDuration;
 
-
+        //[Header("Tween Rotate")]
+        //[Tooltip("Use Rotation Tweener")]
+        [HideInInspector]
+        public bool doRotate;
+        //[Tooltip("Initial Totation")]
+        [HideInInspector]
+        public Vector3 initialAngle;
+        //[Tooltip("Final Rotation")]
+        [HideInInspector]
+        public Vector3 finalAngle;
+        //[Tooltip("Duration")]
+        [HideInInspector]
+        public float rotateDuration;
 
         //[Header("Tween Scale")]
         //[Tooltip("Use Scale Tweener")]
@@ -167,10 +179,10 @@ namespace _2MuchPines.PlugglableTweens
         public void RewindTween(int index=0)
         {
             _isRewind = true;
-			SwapInitialFinalValues();
+			//SwapInitialFinalValues();
 
 			ExecuteTween(index, _delayedOnRewind, _delayedAfterRewind);
-			SwapInitialFinalValues();
+			//SwapInitialFinalValues();
         }
 
 		public void SetDelay(float secs)
@@ -179,7 +191,7 @@ namespace _2MuchPines.PlugglableTweens
         }
 		#endregion
 
-        #region PrivateMembers
+        #region Private_Members
 		void ExecuteTween(int index, bool useDelay, bool delayAfter)
 		{
 			_index = index;
@@ -193,9 +205,20 @@ namespace _2MuchPines.PlugglableTweens
                     tweener.SetEase(ease);
                 seq.Append(tweener);
             }
+
+            if (doRotate)
+            {
+                var tweener = transform.DORotate(finalAngle, rotateDuration);
+                if (ease == Ease.Unset)
+                    tweener.SetEase(curve.curve);
+                else
+                    tweener.SetEase(ease);
+                seq.Append(tweener);
+            }
+
             if (doScale)
             {
-                var tweener = transform.DOScale(finalScale, scaleDuration);
+				var tweener = transform.DOScale(finalScale, scaleDuration);
                 if (ease == Ease.Unset)
                     tweener.SetEase(curve.curve);
                 else
@@ -209,6 +232,7 @@ namespace _2MuchPines.PlugglableTweens
                     seq.Append(tweener);
                 }
             }
+
             if (doFadeAlpha)
             {
 
@@ -226,7 +250,7 @@ namespace _2MuchPines.PlugglableTweens
                     seq.Append(tweener);
                 }
             }
-            if (doMove || doScale || doFadeAlpha)
+            if (doMove || doRotate || doScale || doFadeAlpha)
             {
                 seq.PrependCallback(PlayAlongCallBack);
             }
@@ -239,6 +263,7 @@ namespace _2MuchPines.PlugglableTweens
 				seq.AppendInterval(_delayInSecs);
 			}
             seq.AppendCallback(PlayAfterCallBack);
+			seq.AppendCallback(SwapInitialFinalValues);
 		}
 
         /// <summary>
@@ -249,15 +274,14 @@ namespace _2MuchPines.PlugglableTweens
             //Debug.Log("Play after");
             if (_isRewind)
             {
-                if ( afterRewind.Length == 0)
+				//Debug.Log("rewind");
+				if ( afterRewind.Length == 0)
                 {
                     //Debug.Log("No callback to execute.");
                 }
                 else if (_index < afterRewind.Length)
                 {
-                    //Debug.Log("rewind");
-                    afterRewind[_index].Invoke();
-
+                    afterRewind[_index].Invoke();               
                 }
                 else
                 {

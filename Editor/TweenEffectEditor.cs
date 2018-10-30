@@ -22,6 +22,7 @@ namespace _2MuchPines.PlugglableTweens
             EditorGUILayout.LabelField("Tweeners settings", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             tweenEffect.doMove = GUILayout.Toggle(tweenEffect.doMove, "Use DOMove Tweener");
+            tweenEffect.doRotate = GUILayout.Toggle(tweenEffect.doRotate, "Use DORotate Tweener");
             tweenEffect.doScale = GUILayout.Toggle(tweenEffect.doScale, "Use DOScale Tweener");
 			tweenEffect.doFadeAlpha = GUILayout.Toggle(tweenEffect.doFadeAlpha, "Use DOFadeAlpha Tweener");
 
@@ -44,6 +45,24 @@ namespace _2MuchPines.PlugglableTweens
 
                     EditorGUI.indentLevel--;
                 }    
+            }
+            #endregion
+
+            #region doRotate
+
+            using (var group = new EditorGUILayout.FadeGroupScope(Convert.ToSingle(tweenEffect.doRotate)))
+            {
+                if (group.visible)
+                {
+                    EditorGUILayout.LabelField("DoRotate Settings", EditorStyles.boldLabel);
+                    EditorGUI.indentLevel++;
+                    tweenEffect.initialAngle = EditorGUILayout.Vector3Field("Initial Angle", tweenEffect.initialAngle);
+                    tweenEffect.finalAngle = EditorGUILayout.Vector3Field("Final Angle", tweenEffect.finalAngle);
+                    //EditorGUILayout.PrefixLabel("Duration");
+                    tweenEffect.rotateDuration = EditorGUILayout.Slider("Duration", tweenEffect.rotateDuration, 0f, 5f);
+
+                    EditorGUI.indentLevel--;
+                }
             }
             #endregion
 
