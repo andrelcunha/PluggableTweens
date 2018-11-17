@@ -135,8 +135,10 @@ namespace _2MuchPines.PlugglableTweens
         bool _isRewind;
         int _index;
 
+        public Ease EaseFunction { get => ease; set => ease = value; }
+
         #region MonoBehavior_Methods
-		void Start()
+        void Start()
         {
             if (doMove)
                 transform.localPosition = initialPos;
