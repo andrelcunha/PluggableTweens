@@ -23,7 +23,7 @@ using UnityEngine.Events;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
-using DeadCow;
+using Deadcows;
 
 namespace _2MuchPines.PlugglableTweens
 {
