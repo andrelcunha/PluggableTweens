@@ -23,6 +23,7 @@ using UnityEngine.Events;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using DeadCow;
 
 namespace _2MuchPines.PlugglableTweens
 {
@@ -36,7 +37,6 @@ namespace _2MuchPines.PlugglableTweens
     [AddComponentMenu("2MuchPines/TweenEffect")]
     public class TweenEffect : MonoBehaviour
     {
-
         [Header("Tweener Curve")]
         [Tooltip("Ease Function")]
         [SerializeField]
@@ -135,7 +135,11 @@ namespace _2MuchPines.PlugglableTweens
         bool _isRewind;
         int _index;
 
-        public Ease EaseFunction { get => ease; set => ease = value; }
+        public Ease EaseFunction 
+        { 
+            get { return ease;} 
+            set { ease = value;}
+        }
 
         #region MonoBehavior_Methods
         void Start()
